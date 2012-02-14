@@ -1,0 +1,41 @@
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2012-02-05 17:13:28
+project --topLevelPackage com.lic.extracter --projectName extracter --java 6
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2012-02-05 17:13:31
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2012-02-05 17:13:37
+mongo setup --databaseName extracter
+// [failed] jpa setup --database MYSQL --provider HIBERNATE --databaseName extracter --hostName localhost --userName root --password castravete
+// [failed] persistence setup --database MYSQL --provider HIBERNATE
+entity mongo --class ~.domain.Alchemer --identifierType java.math.BigInteger --testAutomatically 
+focus --class ~.domain.Alchemer
+field string --fieldName url
+// [failed] field date --fieldName timestamp --type java.util.Calendar
+field date --fieldName inquiryDate --type java.util.Calendar
+field string --fieldName inquiryContent
+repository mongo --interface ~.repository.AlchemerRep --class ~.repository.AlchemerRepImpl --entity ~.domain.Alchemer
+repository mongo --interface ~.repository.AlchemerRep --class ~.repository.AlchemerImpl --entity ~.domain.Alchemer
+service --interface ~.service.AlchemerService --entity ~.domain.Alchemer
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2012-02-05 20:03:33
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2012-02-05 20:05:36
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2012-02-05 20:09:47
+perform tests
+repository mongo --entity ~.domain.Alchemer --interface ~.repository.AlchemerRepository
+repository mongo --entity ~.domain.Alchemer --interface ~.repository.AlchemerRepo
+focus --class ~.domain.Alchemer
+field string --fieldName urlContent
+// [failed] persistence setup --database MYSQL --provider HIBERNATE 
+entity mongo --class Sourcer --identifierType java.math.BigInteger --testAutomatically 
+focus --class ~.domain.Sourcer 
+field string --fieldName urlSource
+field boolean --fieldName wasProcessed
+repository mongo --interface ~.repository.SourcerRepository --entity ~domain.Sourcer
+service --interface ~.service.SourcerService --entity ~.domain.Sourcer
+entity mongo --class ~.domain.ExtraAlchemer --identifierType java.math.BigInteger --testAutomatically 
+entity mongo --class ~.domain.Gatekeeper --identifierType java.math.BigInteger --testAutomatically 
+repository mongo --interface ~.repository.ExtraAlchemerRepository --entity ~domain.ExtraAlchemer
+service --interface ~.service.ExtraAlchemerService --entity ~.domain.ExtraAlchemer
+repository mongo --interface ~.repository.GatekeeperRepository --entity ~domain.Gatekeeper
+service --interface ~.service.GatekeeperService --entity ~.domain.Gatekeeper
+backup
+backup
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2012-02-06 03:04:03
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2012-02-14 22:50:26

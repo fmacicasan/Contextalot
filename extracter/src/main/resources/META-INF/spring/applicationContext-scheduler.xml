@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:task="http://www.springframework.org/schema/task"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/task 	http://www.springframework.org/schema/task/spring-task-3.0.xsd ">
+    
+    <task:scheduler id="myScheduler" pool-size="20" />
+    <!-- Scheduled task implementation not yet with annotations UPDATE: tried annotations but hets discovered
+    	twice and repeats the execution from both the web context and the app context  -->
+    	
+    <task:scheduled-tasks scheduler="myScheduler">
+    	<task:scheduled ref="extracterSchedule" method="populateUrl"  cron="0 0 17 * * MON-FRI"/>		
+    	<task:scheduled ref="extracterSchedule" method="calculateUrl"  cron="0 * 5 * * *"/>		
+    	<task:scheduled ref="extracterSchedule" method="calculateExtraUrl"  cron="0/30 * * * * *"/>														<!-- should be at 23 -->
+    	<!-- <task:scheduled ref="scheduleService" method="denyLateRequestsStillUnderApproval" cron="0 0 23 * * MON-FRI"/> -->
+    	<!--<task:scheduled ref="scheduleService" method="generateTimesheets"  cron="25 05 13 * * *"/>-->
+    	<!--<task:scheduled ref="scheduleService" method="verifyExpiredPasswordRequests" cron="0 15 0/6 * * *"/>-->
+    </task:scheduled-tasks> 
+    
+</beans>
