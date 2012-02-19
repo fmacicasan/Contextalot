@@ -30,7 +30,7 @@ public class ExtracterService {
 	@Autowired
 	private ExtraAlchemerService extraAlchemerService ;
 	
-	public boolean extractKeywords(String url){
+	public int extractKeywords(String url){
 		
 		try {
 			URL goodUrl = new URL(url);
@@ -48,18 +48,18 @@ public class ExtracterService {
 			
 			alchemerService.saveAlchemer(alchemer);
 			
-			return true;
+			return 1;
 			
 		} catch (MalformedURLException e) {
 			log.error("Mallformed URL",e);
-			return false;
+			return 0;
 		} catch (ExtracterException e) {
 			log.error("Extracter exception at extract keywords",e);
-			return false;
+			return 0;
 		} 
 	}
 	
-	public boolean extractExtra(String url){
+	public int extractExtra(String url){
 		try {
 			URL goodUrl = new URL(url);
 			
@@ -83,14 +83,14 @@ public class ExtracterService {
 			
 			extraAlchemerService.saveExtraAlchemer(extraAlchemer);
 			
-			return true;
+			return 4;
 			
 		} catch (MalformedURLException e) {
 			log.error("Mallformed URL",e);
-			return false;
+			return 0;
 		} catch (ExtracterException e) {
 			log.error("Extracter exception at extract keywords",e);
-			return false;
+			return 0;
 		} 
 	}
 }

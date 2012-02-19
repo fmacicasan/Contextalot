@@ -12,7 +12,8 @@ privileged aspect Gatekeeper_Roo_ToString {
         sb.append("Active: ").append(getActive()).append(", ");
         sb.append("Count: ").append(getCount()).append(", ");
         sb.append("Date: ").append(getDate()).append(", ");
-        sb.append("Id: ").append(getId());
+        sb.append("Id: ").append(getId()).append(", ");
+        sb.append("Timestamp: ").append(getTimestamp() == null ? "null" : getTimestamp().getTime());
         return sb.toString();
     }
     

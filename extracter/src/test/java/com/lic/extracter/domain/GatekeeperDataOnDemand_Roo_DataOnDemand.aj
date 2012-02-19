@@ -10,6 +10,8 @@ import java.lang.Integer;
 import java.lang.String;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -34,6 +36,7 @@ privileged aspect GatekeeperDataOnDemand_Roo_DataOnDemand {
         setActive(obj, index);
         setCount(obj, index);
         setDate(obj, index);
+        setTimestamp(obj, index);
         return obj;
     }
     
@@ -50,6 +53,11 @@ privileged aspect GatekeeperDataOnDemand_Roo_DataOnDemand {
     public void GatekeeperDataOnDemand.setDate(Gatekeeper obj, int index) {
         String date = "date_" + index;
         obj.setDate(date);
+    }
+    
+    public void GatekeeperDataOnDemand.setTimestamp(Gatekeeper obj, int index) {
+        Calendar timestamp = Calendar.getInstance();
+        obj.setTimestamp(timestamp);
     }
     
     public Gatekeeper GatekeeperDataOnDemand.getSpecificGatekeeper(int index) {

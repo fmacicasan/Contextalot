@@ -36,29 +36,27 @@ public class ExtracterSchedule {
 	@Autowired
 	private GatekeeperService gatekeeperService;
 	
-	@Autowired
-	private ApplicationUtils  applicationUtils;
-	
 	private void init(){
 		if(gatekeeper == null){
 			List<Gatekeeper> gatekeepers = gatekeeperService.findAllGatekeepers();
 			for(Gatekeeper gatekeeper : gatekeepers){
-				if(gatekeeper.getActive()){
-					this.gatekeeper = gatekeeper;
-					//TODO:if from previous day, set it to stoped and create a fresh one
-					return;
+				if(gatekeeperService.isActive(gatekeeper)){
+					if(gatekeeperService.isToday(gatekeeper)){
+						this.gatekeeper = gatekeeper;
+						return;
+					} else {
+						gatekeeperService.inactivate(gatekeeper);
+						gatekeeperService.updateGatekeeper(gatekeeper);
+					}
 				}
 			}
-			this.gatekeeper = new Gatekeeper();
-			this.gatekeeper.setActive(true);
-			this.gatekeeper.setCount(0);
-			this.gatekeeper.setDate(applicationUtils.printLongDate(Calendar.getInstance()));
+			this.gatekeeper = gatekeeperService.createFreshGatekeeper();
 			gatekeeperService.saveGatekeeper(gatekeeper);
 		} 
 	}
 	
-	private void update(){
-		this.gatekeeper.increment();
+	private void update(int count){
+		this.gatekeeper.add(count);
 		gatekeeperService.updateGatekeeper(gatekeeper);
 	}
 
@@ -72,12 +70,12 @@ public class ExtracterSchedule {
 		List<Sourcer> sourcers = sourcerService.findSourcerEntries(count.getAndIncrement(), 1);
 		
 		for(Sourcer sourcer : sourcers){
-			if(!sourcer.getProcessed() && extracterService.extractKeywords(sourcer.getUrlSource())){
+			int serviceInteractionCount = extracterService.extractKeywords(sourcer.getUrlSource());
+			if(!sourcer.getProcessed() && serviceInteractionCount != 0){
 				sourcer.setProcessed(true);
 				sourcerService.updateSourcer(sourcer);
-				//count.incrementAndGet();
 				log.info("count "+count+" processed "+sourcer.getUrlSource());
-				update();
+				update(serviceInteractionCount);
 			} else {
 				log.info("count "+count+" was processed!");
 			}
@@ -90,12 +88,12 @@ public class ExtracterSchedule {
 		List<Sourcer> sourcers = sourcerService.findSourcerEntries(count.getAndIncrement(), 1);
 		
 		for(Sourcer sourcer : sourcers){
-			if(!sourcer.getProcessed() && extracterService.extractExtra(sourcer.getUrlSource())){
+			int serviceInteractionCount = extracterService.extractExtra(sourcer.getUrlSource());
+			if(!sourcer.getProcessed() && serviceInteractionCount != 0){
 				sourcer.setProcessed(true);
 				sourcerService.updateSourcer(sourcer);
-				//count.incrementAndGet();
 				log.info("count "+count+" processed "+sourcer.getUrlSource());
-				update();
+				update(serviceInteractionCount);
 			} else {
 				log.info("count "+count+" was already processed!");
 			}

@@ -6,6 +6,7 @@ package com.lic.extracter.domain;
 import java.lang.Boolean;
 import java.lang.Integer;
 import java.lang.String;
+import java.util.Calendar;
 
 privileged aspect Gatekeeper_Roo_JavaBean {
     
@@ -31,6 +32,14 @@ privileged aspect Gatekeeper_Roo_JavaBean {
     
     public void Gatekeeper.setActive(Boolean active) {
         this.active = active;
+    }
+    
+    public Calendar Gatekeeper.getTimestamp() {
+        return this.timestamp;
+    }
+    
+    public void Gatekeeper.setTimestamp(Calendar timestamp) {
+        this.timestamp = timestamp;
     }
     
 }
